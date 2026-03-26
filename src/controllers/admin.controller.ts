@@ -12,7 +12,7 @@ const memberService = new MemberService();
 adminController.goHome = (req: Request, res: Response) => {
     try{
         console.log("goHome");
-        res.send("Home page")
+        res.render("home")
 
     } catch(err) {
         console.log("Error, goHome:", err)
@@ -24,7 +24,7 @@ adminController.goHome = (req: Request, res: Response) => {
 adminController.getLogin = (req: Request, res: Response) => {
     try{
         console.log("getLogin")
-        res.send("LOGIN PAGE")
+        res.render("login")
     } catch(err) {
         console.log("Error, getLogin:", err)
 
@@ -34,6 +34,7 @@ adminController.getLogin = (req: Request, res: Response) => {
 adminController.getSignup = (req: Request, res: Response) => {
     try{
         console.log("getSignup")
+        res.render("signup")
 
     } catch(err) {
         console.log("Error, getSignup:", err)
