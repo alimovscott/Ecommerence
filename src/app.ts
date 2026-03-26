@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import router from "./router";
 
 
 
@@ -20,6 +21,7 @@ app.set('views engine', 'ejs');
 
 
 //** 4-ROUTERS    */
+app.use("/", router);
 
 
 
