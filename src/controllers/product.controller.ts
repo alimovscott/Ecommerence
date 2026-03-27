@@ -20,14 +20,16 @@ const productController: T = {}
 
 productController.getAllProducts = async (req: Request, res: Response) => {
     try{
-        console.log("getAllProducts")
-        res.render("products")
+        console.log("getAllProducts");
+        const data = await productServive.getAllProducts()
+        console.log("data", data)
+        res.render("products", {products: data});
         
     } catch(err) {
-      console.log("Error, createNewProduct", err);
-        const message = err instanceof Errors ? err.message : Message.SOMETHING_WENT_WRONG;
-        res.send(`<script> alert("${message}"); window.location.replace('/admin/product/all')</script> `);
-        
+      console.log("Error, getAllProducts", err);
+        if(err instanceof Errors) res.status(err.code).json(err);
+        else res.status(Errors.standard.code).json(Errors.standard)
+     
     }
 }
 
