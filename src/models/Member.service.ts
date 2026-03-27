@@ -111,6 +111,30 @@ public async signup(input: MemberInput): Promise<Member> {
   }
 
 
+
+   public async getUsers(): Promise<Member[]> {
+
+    try{
+        const result = await this.memberModel
+        .find({memberType: MemberType.USER})
+        .exec()
+        if(!result.length) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+        return result;
+        
+
+        
+    
+
+
+    } catch(err) {
+        throw new Errors(HttpCode.BAD_REQUEST, Message.CREATE_FAILED);
+    }  
+ };
+
+
+
+
 }
 
 
