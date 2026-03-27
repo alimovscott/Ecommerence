@@ -38,7 +38,7 @@ routerAdmin
 routerAdmin
 .post("/product/:id",
     adminController.verifyAdmin, 
-    productController.uptadeChosenProduct
+    productController.updateChosenProduct
 );
 
 /**  User    */
