@@ -60,7 +60,7 @@ adminController.processSignup = async (req: AdminRequest, res: Response) => {
         
         const newMember: MemberInput = req.body;
         newMember.memberType  = MemberType.ADMIN;
-        newMember.memberImage = file?.path;
+        newMember.memberImage = file?.path.replace(/\\/g, "/");
         
         const result =  await memberService.processSignup(newMember);
         // SESSION AUTHENTICATION
