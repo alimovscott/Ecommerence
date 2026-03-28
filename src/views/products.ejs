@@ -29,7 +29,7 @@
       <div class="board">
         <div class="dishes-table">
           <span class="new-dish-txt" style="margin-bottom: 30px">
-            RESTAURANT MENU
+            Ecommerence LIST
           </span>
           <table class="table table-bordered table-hover">
             <thead class="thead-light">
@@ -37,28 +37,31 @@
                 <th scope="col">T/r</th>
                 <th scope="col">Product Name</th>
                 <th scope="col">Product Type</th>
-                <th scope="col">Product Volume</th>
                 <th scope="col">Product Price</th>
                 <th scope="col">Product Left Count</th>
                 <th scope="col">Status</th>
               </tr>
             </thead>
             <!--  LOOP PRODUCTS: START  -->
-            <tbody style="background: white">
-              <td>1</td>
-              <td>Steak</td>
-              <td>Dish</td>
-              <td>NORMAL</td>
-              <td>11</td>
-              <td>100</td>
+             <% products.map(function(value, key)  {  %>
+           <tbody style="background: white">
+              <td><%= key + 1 %></td>
+              <td><%= value.productName %></td>
+              <td><%= value.productCollection %></td>
+              <td><%= value.productPrice %></td>
+              <td><%= value.productLeftCount %></td>
               <td>
-                <select class="spec-select new-product-status">
-                  <option value="PAUSE" selected>PAUSE</option>
-                  <option value="PROCESS">PROCESS</option>
-                  <option value="DELETE">DELETE</option>
+                <select class="spec-select new-product-status" 
+                id="<%= value._id %>"
+                >
+                  <option value="PAUSE" <%= value.productStatus === 'PAUSE' ? 'selected': ''  %> >PAUSE</option>
+                  <option value="PROCESS" <%= value.productStatus === 'PROCESS' ? 'selected': ''  %> >PROCESS</option>
+                  <option value="DELETE" <%= value.productStatus === 'DELETE' ? 'selected': ''  %> >DELETE</option>
                 </select>
               </td>
             </tbody>
+             <%   }) %>
+     
             <!--  LOOP PRODUCTS: END  -->
           </table>
           <div
@@ -71,6 +74,7 @@
           </div>
         </div>
         <form
+        onsubmit="return validateForm()"
           action="/admin/product/create"
           method="POST"
           class="dish-container"
@@ -120,15 +124,15 @@
             <div class="half-input">
               <label>Product Type</label>
               <select class="product-collection" name="productCollection">
-                <option value="DISH" selected>Dish</option>
-                <option value="SALAD">Salad</option>
-                <option value="DESSERT">Dessert</option>
-                <option value="DRINK">Drink</option>
-                <option value="OTHER">Other</option>
+                <option value="ACCESSORIES" selected>Accessories</option>
+                <option value="ELECTIRONICS">Electironics</option>
+                <option value="BAGS">Bags</option>
+                <option value="HOMEDECOR">Homedecor</option>
+                <!-- <option value="OTHER">Other</option> -->
               </select>
             </div>
 
-            <div class="half-input" id="product-collection">
+            <!-- <div class="half-input" id="product-collection">
               <label>Dish Volume</label>
               <select class="product-size" name="productSize">
                 <option value="SMALL">Small</option>
@@ -136,9 +140,9 @@
                 <option value="LARGE">Large</option>
                 <option value="SET">Set</option>
               </select>
-            </div>
+            </div> -->
 
-            <div class="half-input" id="product-volume" style="display: none">
+            <!-- <div class="half-input" id="product-volume" style="display: none">
               <label>Drink Volume</label>
               <select class="product-volume" name="productVolume">
                 <option value="0.5">0,5 liters</option>
@@ -147,7 +151,7 @@
                 <option value="1.5">1,5 liters</option>
                 <option value="2">2 liters</option>
               </select>
-            </div>
+            </div> -->
           </div>
           <div class="long-input">
             <label>Product Description</label>
@@ -165,6 +169,7 @@
                   name="productImages"
                   class="image-one"
                   required
+                  onchange="priviewFileHandler(this, 1)"
                 />
               </div>
               <div class="upload-img-box">
@@ -174,6 +179,7 @@
                   id="file"
                   name="productImages"
                   class="image-two"
+                  onchange="priviewFileHandler(this, 2)"
                 />
               </div>
               <div class="upload-img-box">
@@ -183,6 +189,7 @@
                   id="file"
                   name="productImages"
                   class="image-three"
+                  onchange="priviewFileHandler(this, 3)"
                 />
               </div>
               <div class="upload-img-box">
@@ -192,6 +199,7 @@
                   id="file"
                   name="productImages"
                   class="image-four"
+                  onchange="priviewFileHandler(this, 4)"
                 />
               </div>
               <div class="upload-img-box">
@@ -201,6 +209,7 @@
                   id="file"
                   name="productImages"
                   class="image-five"
+                  onchange="priviewFileHandler(this, 5)"
                 />
               </div>
               <input name="restaurantIid" class="restaurant-id" hidden />
