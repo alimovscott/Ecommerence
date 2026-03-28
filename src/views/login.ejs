@@ -1,45 +1,71 @@
 <%- include('includes/header') %>
 
+<!-- Zamonaviy shriftlarni ulash -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!-- Bizning yangi CSS faylimiz -->
 <link rel="stylesheet" type="text/css" href="/css/login.css" />
 
 <body>
-  <form class="login-container" action="/admin/login" METHOD="POST">
-    <div class="login-frame">
-      <div class="login-top">
-        <span>Enter</span>
-        <div>Go back <a href="/admin" style="color: #6440fb">Home</a></div>
-        <p>
-          Not registered yet?
-          <a href="/admin/signup" style="color: #6440fb">Signup</a>
-        </p>
-      </div>
-      <div class="login-input-frame">
-        <div class="login-input-container">
-          <label>Ecommerence *</label>
-          <input
-            type="text"
-            name="memberNick"
-            class="member-nick"
-            placeholder="Username"
-            value=""
-            required
-          />
+  <!-- 3D Animatsiya uchun fon konteyneri -->
+  <div id="canvas-container-login"></div>
+
+  <div class="login-container">
+    <!-- Forma uchun oynasimon ramka -->
+    <div class="login-frame glass-effect">
+      <form action="/admin/login" METHOD="POST">
+        <div class="login-top">
+          <span>Welcome Back</span>
+          <p class="subtitle">Please enter your details to sign in.</p>
         </div>
-        <div class="login-input-container">
-          <label>Password *</label>
-          <input
-            type="password"
-            name="memberPassword"
-            class="member-password"
-            placeholder="Password"
-            value=""
-            required
-          />
+        
+        <div class="login-input-frame">
+          <div class="login-input-container">
+            <!-- Asl koddagi label matnini saqlab qoldim, lekin placeholder aniqroq -->
+            <label for="memberNick">Username *</label> 
+            <input
+              type="text"
+              id="memberNick"
+              name="memberNick"
+              class="glass-input"
+              placeholder="Enter username"
+              required
+              autocomplete="off"
+            />
+            <i class="input-icon fas fa-user"></i> <!-- Agar FontAwesome ulangan bo'lsa ikona qo'shish mumkin -->
+          </div>
+          <div class="login-input-container">
+            <label for="memberPassword">Password *</label>
+            <input
+              type="password"
+              id="memberPassword"
+              name="memberPassword"
+              class="glass-input"
+              placeholder="Enter password"
+              required
+            />
+             <i class="input-icon fas fa-lock"></i>
+          </div>
         </div>
-      </div>
-      <button class="login-btn btn" name="login" type="submit">Login</button>
+
+        <button class="login-btn glass-btn" name="login" type="submit">
+          Login <span class="btn-arrow">→</span>
+        </button>
+        
+        <div class="login-bottom-links">
+          <div>Go back <a href="/admin" class="highlight-link">Home</a></div>
+          <p>
+            Not registered yet?
+            <a href="/admin/signup" class="highlight-link">Signup</a>
+          </p>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
+
+  <!-- Three.js kutubxonasi (CDN orqali) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Bizning yangi JS faylimiz -->
+  <script type="text/javascript" src="/js/login.js"></script>
 </body>
 
 <%- include('includes/footer') %>

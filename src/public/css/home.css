@@ -1,67 +1,178 @@
+/* =========================================
+   1. GLOBAL SOZLAMALAR (YANGI YORQIN MAVZU)
+   ========================================= */
+:root {
+    /* --- Ranglar Palitrasi --- */
+    --primary-color: #3b82f6; /* Yorqin Ko'k (Royal Blue) */
+    --danger-color: #ef4444;  /* Qizil (Chiqish tugmasi uchun) */
+    
+    /* --- Matn Ranglari --- */
+    --text-dark: #1f2937;    /* Asosiy to'q matn (Hero title) */
+    --text-muted: #6b7280;   /* Ikkilamchi kulrang matn (Navigatsiya, subtitle) */
+    
+    /* --- Fon va Panellar --- */
+    --page-bg: #f3f4f6;      /* Sahifa foni (och kulrang) */
+    --panel-bg: #ffffff;     /* Navigatsiya foni (oppoq) */
+    
+    /* --- Soyalar (Suzib yurish effekti uchun) --- */
+    --shadow-lg: 0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* 3D sahna uchun skrollni o'chiramiz */
+    font-family: 'Poppins', sans-serif;
+    background: var(--page-bg); /* Yorqin fon */
+    color: var(--text-dark);
+}
+
+
+/* =========================================
+   2. LEYAUT VA 3D KONTEYNER
+   ========================================= */
+/* 3D Canvas Konteyneri */
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Eng orqa fonga qo'yamiz */
+    pointer-events: none; /* Foydalanuvchi 3D fon bilan emas, menyu bilan ishlashi kerak */
+}
+
+/* Asosiy konteyner */
 .home-container {
-  position: relative;
-  width: auto;
-  height: auto;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(-45deg, #110303f0, #dd6d04, #011c1afc, #7a6868);
+    position: relative;
+    z-index: 1; /* 3D fonning ustida turishi kerak */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 30px;
 }
 
-.home-container a {
-  text-decoration: none;
-  color: #000000;
+
+/* =========================================
+   3. NAVIGATSIYA MENYU (TOZA DIZAYN)
+   ========================================= */
+.navigation-menu.glass-nav {
+    /* Eski "glass" effektlari olib tashlandi */
+    background: var(--panel-bg); /* Oppoq fon */
+    border-radius: 50px;
+    padding: 15px 40px; /* Biroz kengroq */
+    box-shadow: var(--shadow-lg); /* Suzib turuvchi yumshoq soya */
+    margin-top: 30px;
 }
 
-.home-container .nav-item a {
-  color: #e3c08d;
+.home-container .nav-item {
+    margin: 0 5px;
+    cursor: pointer;
 }
 
-.home-container .nav-item a.disabled {
-  color: #898071;
+.home-container .nav-link {
+    text-decoration: none;
+    color: var(--text-muted) !important; /* Odatiy holatda kulrang */
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    position: relative;
+    padding: 10px 15px;
 }
 
-.home-container .navigation-menu {
-  position: relative;
-  z-index: 10000;
-  color: #efefee;
-  font-size: 40px;
-  font-family: monospace;
+/* Navigatsiya ostki chizig'i animatsiyasi */
+.home-container .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 3px; /* Qalinroq chiziq */
+    bottom: 0;
+    left: 50%;
+    background-color: var(--primary-color); /* Ko'k rang */
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateX(-50%);
+    border-radius: 3px;
+    opacity: 0;
 }
 
-.home-container .animation-frame {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 55px;
+/* Hover va Active holatlari */
+.home-container .nav-link:hover,
+.home-container .nav-link.active {
+    color: var(--primary-color) !important; /* Hoverda ko'k bo'ladi */
 }
 
-.home-container .animation-wrapper {
-  position: relative;
-  width: 775px;
-  height: 775px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.home-container .nav-link:hover::after,
+.home-container .nav-link.active::after {
+    width: 70%;
+    opacity: 1;
 }
 
-.home-container .sphere-animation {
-  position: relative;
-  width: 580px;
-  height: 580px;
+/* Logout tugmasi uchun alohida stil (Qizil) */
+.nav-link.logout-btn:hover {
+    color: var(--danger-color) !important;
+}
+.nav-link.logout-btn:hover::after {
+    background-color: var(--danger-color);
 }
 
-.home-container .sphere path {
-  fill: url(#sphereGradient);
-  stroke-width: 1px;
-  stroke: rgba(80, 80, 80, 0.35);
-  backface-visibility: hidden;
+
+/* =========================================
+   4. MARKAZIY MATN (HERO CONTENT)
+   ========================================= */
+.hero-content {
+    text-align: center;
+    margin-top: auto; /* Vertikal markazlashtirish */
+    margin-bottom: auto;
+    color: var(--text-dark); /* To'q matn */
+    pointer-events: none;
+    padding: 20px;
 }
 
-@media (min-width: 500px) {
-  .sphere path {
-    stroke-width: 0.4px;
-  }
+.hero-title {
+    font-size: 4.5rem;
+    font-weight: 800;
+    letter-spacing: -2px;
+    margin-bottom: 15px;
+    line-height: 1.1;
+    /* Eski text-shadow olib tashlandi, toza ko'rinish uchun */
+}
+
+.hero-subtitle {
+    font-size: 1.4rem;
+    color: var(--text-muted); /* Kulrang subtitr */
+    font-weight: 400;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+
+/* =========================================
+   5. MOBIL MOSLASHUV
+   ========================================= */
+@media (max-width: 768px) {
+    .navigation-menu.glass-nav {
+        padding: 10px 20px;
+        border-radius: 30px;
+        width: auto;
+        min-width: 300px;
+    }
+    
+    .home-container .nav-link {
+        font-size: 13px;
+        padding: 8px 10px;
+        margin: 0;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
 }

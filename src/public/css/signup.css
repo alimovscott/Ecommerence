@@ -1,191 +1,205 @@
+/* =========================================
+   1. GLOBAL SOZLAMALAR VA O'ZGARUVCHILAR (YANGI YORQIN MAVZU)
+   ========================================= */
+:root {
+    /* --- Ranglar Palitrasi (Yorqin & Toza) --- */
+    --primary-color: #3b82f6; /* Yorqin Ko'k (Royal Blue) */
+    --primary-hover: #2563eb; /* To'qroq Ko'k (Hover uchun) */
+    --accent-color: #10b981;  /* Zumrad Yashil (Ixtiyoriy) */
+    
+    /* --- Matn Ranglari --- */
+    --text-dark: #1f2937;    /* Asosiy to'q matn */
+    --text-muted: #6b7280;   /* Ikkilamchi kulrang matn */
+    --text-light: #ffffff;   /* Oq matn (tugmalar uchun) */
+    
+    /* --- Fon va Panellar --- */
+    --page-bg: #f3f4f6;      /* Sahifa foni (och kulrang) */
+    --panel-bg: #ffffff;     /* Panellar foni (oppoq) */
+    --border-color: #e5e7eb; /* Chegaralar (och kulrang) */
+    
+    /* --- Soyalar (Yumshoq chuqurlik uchun) --- */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--page-bg); /* Yorqin fon */
+  color: var(--text-dark);    /* To'q matn */
+  overflow-x: hidden;
+}
+
+/* --- 3D Canvas Konteyneri --- */
+#canvas-container-signup {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0;
+}
+
+/* --- Asosiy Layout --- */
 .signup-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
-  animation: gradient 15s ease infinite;
-  -webkit-animation: gradient 15s ease infinite;
-  background-size: 200% 200%;
+  position: relative; z-index: 1; min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 30px 15px; box-sizing: border-box;
 }
 
-.signup-container a {
-  text-decoration: none;
-  color: black;
+/* --- Asosiy Panel (Glass o'rniga toza oq quti) --- */
+.glass-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow-lg); /* Kattaroq soya */
 }
 
-.signup-container .signup-frame {
-  position: relative;
-  width: 420px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  background: #ffffff;
-  padding: 25px;
+.signup-frame {
+  width: 100%; max-width: 700px; padding: 40px; box-sizing: border-box;
 }
 
-.signup-container .signup-frame .sign-input-frame {
-  position: relative;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: row;
+
+/* =========================================
+   2. HEADER QISMI
+   ========================================= */
+.signup-top { text-align: center; margin-bottom: 35px; }
+
+.signup-top .title {
+  font-size: 32px; font-weight: 700;
+  color: var(--text-dark); /* To'q matn */
+  display: block; margin-bottom: 10px;
+  letter-spacing: -0.5px;
 }
 
-.signup-container .sign-input-frame .sign-up-frame {
-  position: relative;
-  margin-top: 15px;
-  width: 49%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
+.signup-top .subtitle {
+    color: var(--text-muted); font-size: 15px; margin-bottom: 15px;
 }
 
-.signup-container .sign-up-frame label {
-  margin-bottom: 0px;
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 18px;
+.highlight-link { color: var(--primary-color); text-decoration: none; font-weight: 600; transition: all 0.3s ease; }
+.highlight-link:hover { text-decoration: underline; }
+
+.back-home-link {
+    color: var(--text-muted); text-decoration: none; font-size: 14px;
+    display: inline-flex; align-items: center; transition: all 0.3s ease;
+}
+.back-home-link i { margin-right: 8px; }
+.back-home-link:hover { color: var(--primary-color); transform: translateX(-5px); }
+
+
+/* =========================================
+   3. FORMA GRID VA ZAMONAVIY INPUTLAR
+   ========================================= */
+.form-grid { display: flex; gap: 25px; margin-bottom: 25px; }
+.input-group { flex: 1; display: flex; flex-direction: column; }
+
+.input-group label {
+    font-size: 14px; font-weight: 600; margin-bottom: 8px;
+    color: var(--text-dark); letter-spacing: 0.5px;
 }
 
-.signup-container .sign-up-frame input {
-  position: relative;
-  margin-top: 10px;
-  padding-left: 20px;
-  width: 100%;
-  height: 55px;
-  background: #f6f5f5;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
+.input-wrapper { position: relative; }
+
+/* Ikonka */
+.input-icon {
+    position: absolute; top: 50%; left: 15px; transform: translateY(-50%);
+    color: var(--text-muted); font-size: 18px; z-index: 2; transition: all 0.3s ease;
 }
 
-.signup-container .media-frame {
-  position: relative;
-  margin-top: 15px;
-  width: 100%;
-  height: 250px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+/* Input Stili */
+.glass-input {
+    width: 100%; height: 50px;
+    background: #f9fafb !important; /* Och kulrang fon */
+    border: 1px solid var(--border-color) !important;
+    border-radius: 10px; padding: 0 20px 0 45px; /* Ikonka uchun joy */
+    font-size: 15px; color: var(--text-dark) !important; font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease; box-sizing: border-box;
+    box-shadow: var(--shadow-sm);
+}
+.glass-input::placeholder { color: #9ca3af; }
+
+/* Input Focus/Hover Holati */
+.glass-input:focus {
+    outline: none; border-color: var(--primary-color) !important;
+    background: #ffffff !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important; /* Ko'k nur */
+}
+.glass-input:focus + .input-icon { color: var(--primary-color); }
+.glass-input:hover { border-color: #d1d5db; background: #fff !important; }
+
+
+/* =========================================
+   4. ZAMONAVIY RASM YUKLASH (IMAGE UPLOAD)
+   ========================================= */
+.image-upload-section { margin-bottom: 35px; }
+.image-upload-section label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-dark); }
+
+.glass-upload-zone {
+    position: relative; width: 100%; height: 200px;
+    border-radius: 12px;
+    border: 2px dashed var(--border-color); /* Uzuk-uzuk kulrang chegara */
+    background: #f9fafb; /* Och kulrang fon */
+    overflow: hidden; display: flex; justify-content: center; align-items: center;
+    transition: all 0.3s ease; cursor: pointer;
+}
+.glass-upload-zone:hover {
+    border-color: var(--primary-color);
+    background: #eff6ff; /* Hover bo'lganda juda och ko'k */
 }
 
-.signup-container .media-frame .upload-img-frame {
-  position: relative;
-  width: 275px;
-  height: 93%;
-  display: flex;
-  border-radius: 15px;
+.preview-image {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.4; transition: all 0.3s ease;
+    filter: grayscale(100%); /* Rasm yo'qligida oq-qora */
 }
 
-.signup-container .upload-img-frame .delete-img {
-  position: absolute;
-  width: 37px;
-  height: 37px;
-  right: 5%;
-  top: 5%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #ffffff;
-  box-shadow: 0px 6px 15px rgba(64, 79, 104, 0.05);
-  border-radius: 8px;
+.upload-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    color: var(--text-muted); z-index: 1; transition: all 0.3s ease;
 }
 
-.signup-container .media-frame .upload-container {
-  position: relative;
-  margin-left: 30px;
-  width: 75%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+.upload-icon { font-size: 40px; margin-bottom: 10px; color: var(--text-muted); transition: all 0.3s ease; }
+.upload-text { font-size: 16px; font-weight: 500; }
+.upload-hint { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+
+.upload-hidden {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2;
 }
 
-.signup-container .media-text {
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 18px;
-  color: #140342;
+/* Hover effektlari */
+.glass-upload-zone:hover .upload-icon { color: var(--primary-color); }
+.glass-upload-zone:hover .upload-text { color: var(--primary-color); }
+
+/* Rasm yuklanganda o'zgarish */
+.glass-upload-zone.has-image .preview-image { opacity: 1; filter: none; }
+.glass-upload-zone.has-image .upload-overlay { opacity: 0; }
+/* Rasm bor bo'lsa ham hover qilganda overlay chiqsin */
+.glass-upload-zone.has-image:hover .preview-image { opacity: 0.3; }
+.glass-upload-zone.has-image:hover .upload-overlay { opacity: 1; background: rgba(255,255,255,0.8); }
+
+
+/* =========================================
+   5. TUGMA (BUTTON) - FLAT & MODERN
+   ========================================= */
+.glass-btn-primary {
+    width: 100%; height: 55px; border: none; border-radius: 10px;
+    background: var(--primary-color); /* Gradient o'rniga tekis rang */
+    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 18px; color: #ffffff;
+    cursor: pointer; transition: all 0.3s ease;
+    display: flex; justify-content: center; align-items: center;
+    box-shadow: var(--shadow-sm);
 }
-
-.signup-container .file-box input[type="file"] {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+.glass-btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
+.btn-icon { margin-left: 10px; }
 
-.signup-container .file-box label {
-  margin-bottom: 0px;
-  width: 138px;
-  height: 55px;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #6a7a99;
-  border-radius: 0px 8px 8px 0px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #ffffff;
-}
-
-.signup-container .file-box .upload-name {
-  position: relative;
-  padding: 20px;
-  width: 85%;
-  height: 55px;
-  display: flex;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 8px 0px 0px 8px;
-}
-
-.signup-container .thumbnail-desc {
-  margin-top: 25px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
-}
-
-/* Background animation */
-@-webkit-keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+/* --- Mobil Moslashuv --- */
+@media (max-width: 768px) {
+    .signup-frame { padding: 25px; }
+    .form-grid { flex-direction: column; gap: 20px; }
+    .glass-upload-zone { height: 180px; }
+    .title { font-size: 26px; }
 }

@@ -1,110 +1,245 @@
+/* =========================================
+   1. GLOBAL SOZLAMALAR VA O'ZGARUVCHILAR (YANGI MAVZU)
+   ========================================= */
+:root {
+    /* --- Ranglar Palitrasi (Yorqin & Toza) --- */
+    --primary-color: #3b82f6; /* Yorqin Ko'k (Royal Blue) */
+    --accent-color: #10b981;  /* Zumrad Yashil (Active) */
+    --warning-color: #f59e0b; /* Qahrabo Sariq (Block) */
+    --danger-color: #ef4444;  /* Qizil (Delete/Logout) */
+    
+    /* --- Matn Ranglari --- */
+    --text-dark: #1f2937;    /* Asosiy to'q matn */
+    --text-muted: #6b7280;   /* Ikkilamchi kulrang matn */
+    --text-light: #ffffff;   /* Oq matn */
+    
+    /* --- Fon va Panellar --- */
+    --page-bg: #f3f4f6;      /* Sahifa foni (och kulrang) */
+    --panel-bg: #ffffff;     /* Panellar foni (oppoq) */
+    --border-color: #e5e7eb; /* Chegaralar (och kulrang) */
+    
+    /* --- Soyalar --- */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: var(--page-bg); /* Yorqin fon */
+  color: var(--text-dark);    /* To'q matn */
+}
+
+/* --- 3D Canvas Konteyneri --- */
+#canvas-container-users {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  z-index: 0;
+}
+
+/* --- Asosiy Layout --- */
 .users-container {
   position: relative;
-  width: auto;
-  height: auto;
-  min-width: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(-45deg, #110303bf, #e37813, #011c1aba, #968383);
+  z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  padding-top: 30px; padding-bottom: 50px;
 }
 
-.users-container a {
-  text-decoration: none;
-  color: #000000;
+.display-flex-center {
+    display: flex; justify-content: center; align-items: center; flex-grow: 1;
+    width: 100%;
 }
 
-.users-container .nav-item a {
-  color: #e3c08d;
+
+/* =========================================
+   2. UMUMIY KOMPONENTLAR (YANGI STILLAR)
+   ========================================= */
+/* Asosiy Panel (Oppoq quti) */
+.glass-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  box-shadow: var(--shadow-md);
 }
 
-.users-container .nav-item a.disabled {
-  color: #898071;
+.section-title {
+    font-size: 24px; font-weight: 700;
+    color: var(--text-dark);
+    display: flex; align-items: center;
+    letter-spacing: -0.5px;
+}
+/* Sarlavha ikonkasining rangi */
+.margin-right-10 { margin-right: 12px; color: var(--primary-color); }
+
+
+/* =========================================
+   3. NAVIGATSIYA MENYU (YORQIN)
+   ========================================= */
+.navigation-menu.glass-panel {
+  padding: 10px 30px;
+  border-radius: 50px;
+  margin-bottom: 40px;
+  box-shadow: var(--shadow-lg);
 }
 
-.users-container .navigation-menu {
-  position: absolute;
-  z-index: 10000;
-  top: 1%;
-  color: #efefee;
-  font-size: 40px;
-  font-family: monospace;
-}
-
-.users-container .users-frame {
+.nav-link {
+  color: var(--text-muted) !important; /* Odatiy holatda kulrang */
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
   position: relative;
-  padding-bottom: 80px;
-  width: 100%;
-  height: auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
-.users-container .users-frame .board {
-  position: relative;
-  margin-top: 100px;
-  width: 1320px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.nav-link::after {
+  content: '';
+  position: absolute; width: 0; height: 3px; bottom: 0; left: 50%;
+  background-color: var(--primary-color); /* Ko'k chiziq */
+  transition: all 0.3s ease; transform: translateX(-50%);
+  border-radius: 3px;
 }
 
-.users-container .board .dishes-table {
-  position: relative;
-  width: 100%;
-  height: auto;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Faol va Hover holatlari */
+.nav-link:hover, .nav-link.active { color: var(--primary-color) !important; }
+.nav-link:hover::after, .nav-link.active::after { width: 80%; }
+
+/* Logout tugmasi */
+.nav-link.logout-btn:hover { color: var(--danger-color) !important; }
+.nav-link.logout-btn:hover::after { background-color: var(--danger-color); }
+
+
+/* =========================================
+   4. LOGIN BO'LMAGAN HOLAT (ACCESS DENIED)
+   ========================================= */
+.message-board {
+    padding: 50px 60px;
+    text-align: center;
+    color: var(--text-muted);
+    max-width: 450px;
 }
 
-.users-container .board .user-table {
-  position: relative;
-  width: 85%;
-  height: auto;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Qulf ikonkasi */
+.message-board i { color: var(--danger-color) !important; font-size: 4rem !important; margin-bottom: 25px !important; }
+/* Sarlavha matni */
+.message-board div { color: var(--text-dark); font-weight: 700; margin-bottom: 10px; }
+
+
+/* =========================================
+   5. ASOSIY BOARD (LOGGED IN)
+   ========================================= */
+.users-frame {
+    width: 100%; display: flex; justify-content: center;
 }
 
-.users-container .header-name {
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 25px;
-  color: #ffffff;
+.board.main-board {
+    width: 95%; max-width: 1200px;
+    padding: 40px;
+    background: var(--panel-bg);
 }
 
-.users-container select:focus {
-  min-width: 90%;
-  width: auto;
+
+/* =========================================
+   6. JADVAL (TABLE) - TOZA DIZAYN
+   ========================================= */
+.table-header { margin-bottom: 25px; }
+
+.glass-table-wrapper {
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
 }
 
-.users-container .spec-select {
-  position: relative;
-  padding: 0px 7px;
-  /*width: 100%;*/
-  height: 27px;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+.glass-table {
+    color: var(--text-dark) !important;
+    margin-bottom: 0;
+    background: var(--panel-bg);
 }
 
-.users-container table td,
-table th {
-  text-align: center;
-  vertical-align: middle;
+/* Jadval Sarlavhasi */
+.glass-table thead th {
+    background: #f9fafb; /* Och kulrang fon */
+    border-bottom: 2px solid var(--border-color);
+    text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; font-size: 13px;
+    color: var(--text-muted);
+    padding: 15px;
+}
+
+/* Jadval Qatorlari */
+.glass-table tbody td {
+    border-top: 1px solid var(--border-color);
+    vertical-align: middle; font-size: 15px;
+    padding: 15px;
+    font-weight: 500;
+}
+
+.glass-table tbody tr:hover { background: #f3f4f6; }
+
+
+/* =========================================
+   7. STATUS SELECT (ZAMONAVIY)
+   ========================================= */
+.glass-select.member-status {
+    padding: 8px 12px !important;
+    height: auto; font-size: 14px; font-weight: 500;
+    border-radius: 8px !important;
+    background-color: var(--page-bg) !important; /* Kulrang fon */
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+    cursor: pointer; outline: none; transition: all 0.2s ease;
+    width: 100%; max-width: 120px;
+
+    /* Maxsus strelka ikonkasi */
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;
+    padding-right: 2.5rem !important;
+}
+
+.glass-select.member-status:hover {
+     border-color: var(--primary-color);
+     background-color: #fff !important;
+}
+
+.glass-select.member-status:focus {
+     border-color: var(--primary-color);
+     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+     background-color: #fff !important;
+}
+
+/* Optionlar foni */
+.glass-select.member-status option { background-color: #ffffff; color: var(--text-dark); padding: 8px; }
+
+/* Status matn ranglari (Yorqin mavzuga mos) */
+.text-success { color: var(--accent-color) !important; font-weight: 600; }
+.text-warning { color: var(--warning-color) !important; font-weight: 600; }
+.text-danger { color: var(--danger-color) !important; font-weight: 600; }
+
+
+/* =========================================
+   8. MOBIL MOSLASHUV
+   ========================================= */
+@media (max-width: 768px) {
+    .navigation-menu.glass-panel { padding: 10px 5px; width: 95%; margin-bottom: 20px; }
+    .nav-link { font-size: 12px; padding: 8px 10px; }
+    
+    .board.main-board { padding: 20px; width: 95%; }
+    .section-title { font-size: 20px; }
+    
+    .message-board { padding: 30px 20px; width: 90%; }
+    .message-board i { font-size: 3rem !important; }
+    .message-board div { font-size: 24px !important; }
+
+    /* Mobil jadval ko'rinishi */
+    .glass-table thead { display: none; }
+    .glass-table tbody td {
+        display: flex; justify-content: space-between; align-items: center;
+        padding: 12px 15px;
+        border-bottom: 1px solid var(--border-color);
+        text-align: right;
+    }
+    /* Mobil jadvalda status selekti to'liq kenglikda */
+    .glass-select.member-status { max-width: 100%; }
 }

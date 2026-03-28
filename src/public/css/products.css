@@ -1,367 +1,373 @@
+/* =========================================
+   1. GLOBAL SOZLAMALAR VA O'ZGARUVCHILAR (YANGI MAVZU)
+   ========================================= */
+:root {
+    /* --- Ranglar Palitrasi (Yorqin & Toza) --- */
+    --primary-color: #3b82f6; /* Yorqin Ko'k (Royal Blue) */
+    --primary-hover: #2563eb; /* To'qroq Ko'k (Hover uchun) */
+    --accent-color: #10b981;  /* Zumrad Yashil (Aksent/Success) */
+    --danger-color: #ef4444;  /* Qizil (Xatolik/O'chirish) */
+    
+    /* --- Matn Ranglari --- */
+    --text-dark: #1f2937;    /* Asosiy qora matn */
+    --text-muted: #6b7280;   /* Ikkilamchi kulrang matn */
+    --text-light: #ffffff;   /* Oq matn (tugmalar uchun) */
+    
+    /* --- Fon va Panellar --- */
+    --page-bg: #f3f4f6;      /* Sahifa foni (och kulrang) */
+    --panel-bg: #ffffff;     /* Panellar foni (oppoq) */
+    --border-color: #e5e7eb; /* Chegaralar (och kulrang) */
+    
+    /* --- Soyalar (Yumshoq chuqurlik uchun) --- */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: var(--page-bg); /* Yorqin fon */
+    color: var(--text-dark);    /* To'q matn */
+    scroll-behavior: smooth;
+}
+
+/* =========================================
+   2. ASOSIY LEYAUT
+   ========================================= */
+/* 3D Canvas Konteyneri (JS orqali yorqinroq 3D sahna yuklanishi kutiladi) */
+#canvas-container-products {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 0;
+    /* Agar 3D ishlamasa, orqa fon ko'rinib turadi */
+}
+
 .products-container {
-  position: relative;
-  width: auto;
-  height: auto;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: linear-gradient(-45deg, #110303bf, #e37813, #011c1aba, #968383);
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    padding-bottom: 50px;
 }
 
-.products-container a {
-  text-decoration: none;
-  color: #000000;
+
+/* =========================================
+   3. UMUMIY KOMPONENTLAR (YANGI STILLAR)
+   ========================================= */
+/* Asosiy Panel (Eski "glass-panel" o'rniga toza oq blok) */
+.glass-panel {
+    background: var(--panel-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 16px; /* Burchaklar biroz keskinroq */
+    box-shadow: var(--shadow-md); /* Yumshoq soya */
+    /* backdrop-filter olib tashlandi */
 }
 
-.products-container .nav-item a {
-  color: #e3c08d;
+.section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    letter-spacing: -0.5px;
 }
 
-.products-container .nav-item a.disabled {
-  color: #898071;
+
+/* =========================================
+   4. NAVIGATSIYA MENYU (YORQIN)
+   ========================================= */
+.navigation-menu.glass-panel {
+    padding: 10px 30px;
+    border-radius: 50px;
+    margin-bottom: 40px;
+    background: var(--panel-bg);
+    box-shadow: var(--shadow-lg);
 }
 
-.products-container .navigation-menu {
-  position: absolute;
-  z-index: 10000;
-  top: 1%;
-  color: #efefee;
-  font-size: 40px;
-  font-family: monospace;
+.nav-link {
+    color: var(--text-muted) !important; /* Odatiy holatda kulrang */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+    position: relative;
 }
 
-.products-container .restaurant-menu-frame {
-  position: relative;
-  padding-bottom: 80px;
-  width: 100%;
-  height: auto;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.nav-link::after {
+    content: '';
+    position: absolute; width: 0; height: 3px; bottom: 0; left: 50%;
+    background-color: var(--primary-color); /* Ko'k chiziq */
+    transition: all 0.3s ease; transform: translateX(-50%);
+    border-radius: 3px;
 }
 
-.products-container .restaurant-menu-frame .board {
-  position: relative;
-  margin-top: 100px;
-  width: 1320px;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Faol va Hover holatlari */
+.nav-link:hover, .nav-link.active {
+    color: var(--primary-color) !important;
 }
 
-.products-container .board .dishes-table {
-  position: relative;
-  width: 100%;
-  height: auto;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.nav-link:hover::after, .nav-link.active::after {
+    width: 80%;
 }
 
-.products-container .board .dish-container {
-  position: relative;
-  margin-top: 20px;
-  width: 100%;
-  height: auto;
+/* Logout tugmasi */
+.nav-link.logout-btn:hover { color: var(--danger-color) !important; }
+.nav-link.logout-btn:hover::after { background-color: var(--danger-color); }
 
-  
-  display: none;
-  flex-direction: column;
-  align-items: center;
+
+/* =========================================
+   5. ASOSIY PANEL (BOARD)
+   ========================================= */
+.restaurant-menu-frame {
+    width: 95%;
+    max-width: 1300px;
+    display: flex; justify-content: center;
 }
 
-.products-container .new-dish-txt {
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 30px;
-  line-height: 25px;
-  color: #ffffff;
+.board.main-board {
+    width: 100%;
+    padding: 40px; /* Kengroq ichki masofa */
+    background: var(--panel-bg);
 }
 
-.products-container .long-input {
-  position: relative;
-  margin-top: 25px;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
+
+/* =========================================
+   6. JADVAL (TABLE) - TOZA DIZAYN
+   ========================================= */
+.table-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 25px;
 }
 
-.products-container .long-input label {
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 25px;
-  color: #ffffff;
+.glass-table-wrapper {
+    border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
 }
 
-.products-container .long-input input {
-  position: relative;
-  margin-top: 10px;
-  padding-left: 20px;
-  width: 100%;
-  height: 54px;
-  border: none;
-  background: #f7f7f7;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+.glass-table {
+    color: var(--text-dark) !important;
+    margin-bottom: 0;
+    background: var(--panel-bg);
 }
 
-.products-container .long-input textarea {
-  position: relative;
-  margin-top: 10px;
-  padding: 20px;
-  width: 100%;
-  height: 200px;
-  border: none;
-  background: #f7f7f7;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+/* Jadval Sarlavhasi */
+.glass-table thead th {
+    background: #f9fafb; /* Juda och kulrang fon */
+    border-bottom: 2px solid var(--border-color);
+    text-transform: uppercase;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text-muted);
+    padding: 15px;
 }
 
-.products-container .half-input select {
-  position: relative;
-  margin-top: 10px;
-  padding: 0px 20px;
-  width: 100%;
-  height: 55px;
-  display: flex;
-  border: none;
-  background: #f7f7f7;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+/* Jadval Qatorlari */
+.glass-table tbody td {
+    border-top: 1px solid var(--border-color);
+    vertical-align: middle;
+    font-size: 15px;
+    padding: 15px;
 }
 
-.products-container select:focus {
-  min-width: 100%;
-  width: auto;
+.glass-table tbody tr:hover {
+    background: #f3f4f6; /* Hover bo'lganda och kulrang */
 }
 
-.products-container .long-input select {
-  position: relative;
-  margin-top: 10px;
-  padding: 0px 20px;
-  width: 100%;
-  height: 55px;
-  display: flex;
-  border: none;
-  background: #f7f7f7;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+/* --- Jadval Elementlari --- */
+/* Badge (Kategoriya uchun) */
+.badge-glass {
+    background: #dcfce7; /* Och yashil fon */
+    color: #166534;      /* To'q yashil matn */
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 12px;
 }
 
-.products-container .dish-container .half-input-frame {
-  position: relative;
-  margin-top: 25px;
-  width: 100%;
-  height: auto;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+/* Status Select (Jadval ichida) */
+.glass-select.status-select {
+    padding: 8px 12px !important;
+    height: auto; font-size: 14px; font-weight: 500;
+    border-radius: 8px !important;
+    background-color: var(--page-bg) !important; /* Kulrang fon */
+    border: 1px solid var(--border-color);
+    color: var(--text-dark);
+    cursor: pointer; outline: none; transition: all 0.2s ease;
+    
+    /* Maxsus strelka ikonkasi (zamonaviy ko'rinish uchun) */
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center; background-repeat: no-repeat; background-size: 1.5em 1.5em;
+    padding-right: 2.5rem !important;
 }
 
-.products-container .half-input-frame .half-input {
-  position: relative;
-  width: 49%;
-  height: auto;
-  display: flex;
-  flex-direction: column;
+.glass-select.status-select:hover { border-color: var(--primary-color); background-color: #fff !important;}
+.glass-select.status-select:focus { 
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    background-color: #fff !important;
 }
 
-.products-container .half-input label {
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 25px;
-  color: #ffffff;
+
+/* =========================================
+   7. FORMA (NEW PRODUCT) - ZAMONAVIY INPUTLAR
+   ========================================= */
+.glass-form-container {
+    margin-top: 40px; padding-top: 40px;
+    border-top: 2px dashed var(--border-color);
 }
 
-.products-container .half-input input {
-  position: relative;
-  margin-top: 10px;
-  padding-left: 20px;
-  width: 100%;
-  height: 54px;
-  border: none;
-  background: #f7f7f7;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border-radius: 5px;
+.form-header { margin-bottom: 30px; }
+
+.form-group label {
+    display: block; margin-bottom: 10px;
+    font-weight: 600; color: var(--text-dark); font-size: 14px;
 }
 
-.products-container .media-frame {
-  position: relative;
-  margin-top: 10px;
-  width: 100%;
-  height: 250px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+/* --- YANGI INPUT STILLARI --- */
+.glass-input {
+    background: #f9fafb !important; /* Och kulrang fon */
+    border: 1px solid var(--border-color) !important;
+    color: var(--text-dark) !important;
+    border-radius: 8px !important;
+    padding: 14px 16px !important;
+    font-size: 15px;
+    transition: all 0.3s ease !important;
+    box-shadow: var(--shadow-sm) !important;
 }
 
-.products-container .media-frame .upload-img-box {
-  position: relative;
-  width: 19%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 10px;
-  cursor: pointer;
+.glass-input::placeholder { color: #9ca3af; } /* Placeholder rangi */
+
+/* Input Hover Holati */
+.glass-input:hover {
+    background: #fff !important;
+    border-color: #d1d5db !important;
 }
 
-.products-container .upload-img-box img {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: block;
-  border-radius: 10px;
+/* Input Focus Holati (Yorqin Ko'k Hoshiya) */
+.glass-input:focus {
+    background: #ffffff !important;
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important; /* Ko'k nur */
+    outline: none;
 }
 
-.products-container .img-frame {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+.glass-input.product-desc { height: auto; resize: vertical; min-height: 100px; }
+
+
+/* =========================================
+   8. RASM YUKLASH (TOZA KOROBKALAR)
+   ========================================= */
+.media-frame { display: flex; gap: 20px; flex-wrap: wrap; }
+
+.glass-upload-box {
+    position: relative; width: 130px; height: 130px;
+    border-radius: 12px;
+    border: 2px dashed var(--border-color); /* Uzuk-uzuk kulrang chegara */
+    background: #f9fafb;
+    display: flex; justify-content: center; align-items: center;
+    overflow: hidden; transition: all 0.3s ease; cursor: pointer;
 }
 
-.products-container .img-frame label {
-  margin-top: 30px;
-  font-family: "Source Serif Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 25px;
-  color: #ffffff;
+.glass-upload-box:hover {
+    border-color: var(--primary-color);
+    background: #eff6ff; /* Hover bo'lganda juda och ko'k */
 }
 
-.products-container #file {
-  opacity: 0;
-  border: none;
-  border-radius: 10px;
-  background: grey;
-  position: absolute;
-  left: 0px;
-  width: 100%;
-  top: 0px;
-  height: 100%;
-  cursor: pointer;
+.preview-img {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.8; transition: all 0.3s ease;
 }
 
-.products-container .operation-buttons {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+.image-input {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: pointer; z-index: 2;
 }
 
-.products-container .spec-select {
-  position: relative;
-  padding: 0px 7px;
-  height: 27px;
-  background: #ffffff;
-  border: 1px solid #dddddd;
-  border-radius: 8px;
-  font-family: "GT Walsheim Pro";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 15px;
-  line-height: 26px;
-  color: #4f547b;
+.upload-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    display: flex; justify-content: center; align-items: center;
+    font-size: 28px; color: var(--primary-color); /* Ikonka ko'k rangda */
+    opacity: 0; transition: all 0.3s ease; z-index: 1;
+    background: rgba(255, 255, 255, 0.85); /* Oqimtir fon */
 }
 
-.products-container table td,
-table th {
-  text-align: center;
-  vertical-align: middle;
+.glass-upload-box:hover .preview-img { opacity: 0.3; }
+.glass-upload-box:hover .upload-overlay { opacity: 1; }
+
+
+/* =========================================
+   9. TUGMALAR (FLAT & MODERN)
+   ========================================= */
+.operation-buttons {
+    display: flex; justify-content: flex-end; gap: 20px; margin-top: 40px;
 }
 
-.products-container .switch {
-  position: relative;
-  display: inline-block;
-  width: 50px;
-  height: 20px;
+.glass-btn-primary, .glass-btn-danger {
+    border: none; border-radius: 8px;
+    padding: 14px 30px; font-weight: 600; font-size: 15px;
+    transition: all 0.3s ease; cursor: pointer;
 }
 
-.products-container .switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
+/* Asosiy Tugma (Ko'k) */
+.glass-btn-primary {
+    background: var(--primary-color); /* Gradientsiz, tekis rang */
+    color: var(--text-light);
+    box-shadow: var(--shadow-sm);
 }
 
-.products-container .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+.glass-btn-primary:hover {
+    background: var(--primary-hover);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
 }
 
-.products-container .slider:before {
-  position: absolute;
-  content: "";
-  height: 14px;
-  width: 14px;
-  left: 6px;
-  bottom: 3.5px;
-  background-color: white;
-  -webkit-transition: 0.4s;
-  transition: 0.4s;
+/* Bekor Qilish Tugmasi (Qizil) */
+.glass-btn-danger {
+    background: transparent;
+    border: 2px solid var(--danger-color);
+    color: var(--danger-color);
 }
 
-.products-container input:checked + .slider {
-  background-color: #2196f3;
+.glass-btn-danger:hover {
+    background: var(--danger-color);
+    color: var(--text-light);
 }
 
-.products-container input:focus + .slider {
-  box-shadow: 0 0 1px #2196f3;
-}
 
-.products-container input:checked + .slider:before {
-  -webkit-transform: translateX(26px);
-  -ms-transform: translateX(26px);
-  transform: translateX(26px);
-}
+/* =========================================
+   10. MOBIL MOSLASHUV
+   ========================================= */
+@media (max-width: 768px) {
+    .navigation-menu.glass-panel { padding: 10px 5px; width: 95%; margin-bottom: 20px;}
+    .nav-link { font-size: 12px; padding: 8px 10px; }
+    
+    .board.main-board { padding: 20px; }
+    .section-title { font-size: 20px; }
 
-.products-container .slider.round {
-  border-radius: 34px;
-}
+    .table-header { flex-direction: column; gap: 15px; align-items: stretch; }
+    .table-header .glass-btn-primary { width: 100%; }
+    
+    .glass-table thead { display: none; /* Mobil uchun sarlavhani yashirish */ }
+    .glass-table tbody td {
+        display: block; text-align: right;
+        padding-left: 50%; position: relative;
+        border-bottom: 1px solid var(--border-color);
+    }
+    /* Mobil jadvalda har bir katakcha oldiga sarlavha qo'shish */
+    .glass-table tbody td::before {
+        content: attr(data-label);
+        position: absolute; left: 15px; top: 50%; transform: translateY(-50%);
+        font-weight: 600; color: var(--text-muted);
+    }
 
-.products-container .slider.round:before {
-  border-radius: 50%;
+    .media-frame { justify-content: center; }
+    .operation-buttons { flex-direction: column-reverse; }
+    .glass-btn-primary, .glass-btn-danger { width: 100%; padding: 16px; }
 }
