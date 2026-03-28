@@ -42,7 +42,17 @@ routerAdmin
 );
 
 /**  User    */
-routerAdmin.get("/user/all", adminController.verifyAdmin, adminController.getUsers)
+routerAdmin
+.get("/user/all",
+     adminController.verifyAdmin, 
+     adminController.getUsers
+    );
+  
+routerAdmin
+.post("/user/edit", 
+    adminController.verifyAdmin, 
+    adminController.updateChosenUser
+);    
 
 
 
