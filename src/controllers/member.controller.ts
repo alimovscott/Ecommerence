@@ -126,6 +126,8 @@ memberController.getTopUsers = async (req: Request, res: Response) => {
 }
 
 
+
+
 memberController.getMemberDetail = async (req: ExtendedRequest, res: Response) => {
     try{
         console.log("getMemberDetail");
