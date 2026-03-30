@@ -13,6 +13,21 @@ class MemberService {
  // ******************************************** //
  //     ***********   REACT     *********        //
  // ******************************************** //
+
+ public async getAdmin():Promise<Member> {
+  const result = this.memberModel
+  .findOne({memberType: MemberType.ADMIN})
+  .exec();
+  if(!result) throw new Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+
+  return result;
+
+ }
+
+
+
+
+
 public async signup(input: MemberInput): Promise<Member> {
     
     const salt = await bcrypt.genSalt()
