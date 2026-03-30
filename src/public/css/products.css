@@ -14,7 +14,10 @@
     --text-light: #ffffff;   /* Oq matn (tugmalar uchun) */
     
     /* --- Fon va Panellar --- */
-    --page-bg: #f3f4f6;      /* Sahifa foni (och kulrang) */
+    /* DIQQAT: Shisha effekti uchun fonni gradientga o'zgartirdik */
+    --page-bg: linear-gradient(135deg, #E0EAFC 0%, #CFDEF3 100%); 
+    /* Eski fon: --page-bg: #f3f4f6; */
+
     --panel-bg: #ffffff;     /* Panellar foni (oppoq) */
     --border-color: #e5e7eb; /* Chegaralar (och kulrang) */
     
@@ -28,7 +31,8 @@ html, body {
     height: 100%;
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: var(--page-bg); /* Yorqin fon */
+    background: var(--page-bg); /* Yorqin gradient fon */
+    background-attachment: fixed; /* Fon qotirilgan */
     color: var(--text-dark);    /* To'q matn */
     scroll-behavior: smooth;
 }
@@ -216,49 +220,105 @@ html, body {
 
 
 /* =========================================
-   7. FORMA (NEW PRODUCT) - ZAMONAVIY INPUTLAR
+   7. FORMA (NEW PRODUCT) - ZAMONAVIY SHISHA (GLASSMORPHISM)
    ========================================= */
+
+/* Asosiy Forma Konteyneri - Katta Shisha Panel */
 .glass-form-container {
-    margin-top: 40px; padding-top: 40px;
-    border-top: 2px dashed var(--border-color);
+    margin-top: 40px;
+    border-top: none; /* Eski dashed chegarani olib tashladik */
+
+    /* YANGI SHISHA STILI */
+    background: rgba(255, 255, 255, 0.3); /* Orqa fon ko'rinishi uchun yarim shaffof */
+    
+    /* Xiralashtirish effekti (Blur) */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px); /* Safari uchun */
+
+    /* Chegaralar va shakl */
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.4); /* Yaltiroq oq chegara */
+    
+    /* Konteynerni ajratib turuvchi soya */
+    box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.15),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+    
+    padding: 40px; 
+    max-width: 800px; /* Forma juda keng bo'lib ketmasligi uchun */
+    margin-left: auto; margin-right: auto;
 }
 
-.form-header { margin-bottom: 30px; }
+/* Forma sarlavhasi */
+.form-header { 
+    margin-bottom: 35px;
+    text-align: center;
+    color: var(--text-dark, #111827);
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
 
+/* Inputlar guruhi */
+.form-group { margin-bottom: 25px; }
+
+/* Label stili */
 .form-group label {
     display: block; margin-bottom: 10px;
-    font-weight: 600; color: var(--text-dark); font-size: 14px;
+    font-weight: 600; font-size: 14px;
+    color: var(--text-dark, #374151); 
+    letter-spacing: 0.02em;
 }
 
-/* --- YANGI INPUT STILLARI --- */
+/* --- YANGI SHISHA INPUT STILLARI (Variant 2 asosida) --- */
 .glass-input {
-    background: #f9fafb !important; /* Och kulrang fon */
-    border: 1px solid var(--border-color) !important;
-    color: var(--text-dark) !important;
-    border-radius: 8px !important;
-    padding: 14px 16px !important;
+    width: 100%; /* Kenglik muammosi hal qilindi */
+    box-sizing: border-box;
+    display: block;
+
+    /* Shisha effekti */
+    background: rgba(255, 255, 255, 0.7); 
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    
+    /* Chegaralar */
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-top-color: rgba(255, 255, 255, 0.8); /* Yuqoridan yorug'lik tushishi */
+    
+    color: var(--text-dark, #1f2937);
+    border-radius: 12px;
+    padding: 14px 18px;
     font-size: 15px;
-    transition: all 0.3s ease !important;
-    box-shadow: var(--shadow-sm) !important;
+    transition: all 0.3s ease;
+    
+    /* Yumshoq ichki va tashqi soyalar */
+    box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.4),
+        0 4px 6px -1px rgba(0, 0, 0, 0.05); 
 }
 
-.glass-input::placeholder { color: #9ca3af; } /* Placeholder rangi */
+.glass-input::placeholder { color: #6b7280; opacity: 0.8; }
 
-/* Input Hover Holati */
 .glass-input:hover {
-    background: #fff !important;
-    border-color: #d1d5db !important;
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(255, 255, 255, 0.7);
+    box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.5),
+        0 6px 12px -2px rgba(0, 0, 0, 0.08);
 }
 
-/* Input Focus Holati (Yorqin Ko'k Hoshiya) */
 .glass-input:focus {
-    background: #ffffff !important;
-    border-color: var(--primary-color) !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important; /* Ko'k nur */
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--primary-color);
+    /* Focus bo'lganda ko'k nur va soya */
+    box-shadow: 
+        0 0 0 3px rgba(59, 130, 246, 0.25),
+        0 6px 12px -2px rgba(0, 0, 0, 0.1);
     outline: none;
 }
 
-.glass-input.product-desc { height: auto; resize: vertical; min-height: 100px; }
+.glass-input.product-desc { 
+    height: auto; resize: vertical; min-height: 120px; line-height: 1.5;
+}
 
 
 /* =========================================
@@ -269,15 +329,17 @@ html, body {
 .glass-upload-box {
     position: relative; width: 130px; height: 130px;
     border-radius: 12px;
-    border: 2px dashed var(--border-color); /* Uzuk-uzuk kulrang chegara */
-    background: #f9fafb;
+    /* Shisha uslubiga moslashish uchun chegarani o'zgartiramiz */
+    border: 2px dashed rgba(59, 130, 246, 0.4); /* Ko'kimtir uzik chiziq */
+    background: rgba(255, 255, 255, 0.5); /* Yarim shaffof fon */
+    
     display: flex; justify-content: center; align-items: center;
     overflow: hidden; transition: all 0.3s ease; cursor: pointer;
 }
 
 .glass-upload-box:hover {
     border-color: var(--primary-color);
-    background: #eff6ff; /* Hover bo'lganda juda och ko'k */
+    background: rgba(255, 255, 255, 0.8); /* Hoverda oqroq */
 }
 
 .preview-img {
@@ -350,6 +412,9 @@ html, body {
     
     .board.main-board { padding: 20px; }
     .section-title { font-size: 20px; }
+
+    /* Formani mobilga moslash */
+    .glass-form-container { padding: 25px; margin-top: 20px; }
 
     .table-header { flex-direction: column; gap: 15px; align-items: stretch; }
     .table-header .glass-btn-primary { width: 100%; }

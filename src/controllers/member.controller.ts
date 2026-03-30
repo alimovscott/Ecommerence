@@ -4,11 +4,13 @@ import  { Request, Response } from "express";
 import { LoginInput, Member, MemberInput } from "../libs/types/member";
 import { MemberType } from "../libs/enums/member.enum";
 import Errors from "../libs/Errors";
+import AuthService from "../models/Auth.service";
 
 
 
 const memberController: T = {};
 const memberService = new MemberService();
+const authService = new AuthService();
 
 
 memberController.signup = async (req: Request, res: Response) => {
@@ -17,6 +19,7 @@ memberController.signup = async (req: Request, res: Response) => {
         const input: MemberInput = req.body;
 
         const result: Member =  await memberService.signup(input);
+        const token = await authService.createToken(result);
         res.json({member: result});
         
     } catch(err) {
@@ -36,6 +39,8 @@ memberController.login = async (req: Request, res: Response) => {
         const input: LoginInput = req.body;
 
         const result =  await memberService.login(input)
+        const token = await authService.createToken(result);
+        
        
         res.json({member: result});
         

@@ -1,205 +1,258 @@
 /* =========================================
-   1. GLOBAL SOZLAMALAR VA O'ZGARUVCHILAR (YANGI YORQIN MAVZU)
+   YANGI ZAMONAVIY DIZAYN (ULTRA-MODERN GLASS)
    ========================================= */
+
+/* --- 1. GLOBAL SOZLAMALAR VA YANGI O'ZGARUVCHILAR --- */
 :root {
-    /* --- Ranglar Palitrasi (Yorqin & Toza) --- */
-    --primary-color: #3b82f6; /* Yorqin Ko'k (Royal Blue) */
-    --primary-hover: #2563eb; /* To'qroq Ko'k (Hover uchun) */
-    --accent-color: #10b981;  /* Zumrad Yashil (Ixtiyoriy) */
-    
+    /* --- Asosiy Ranglar (Vibrant & Clean) --- */
+    --primary: #3b82f6;          /* Asosiy ko'k */
+    --primary-gradient: linear-gradient(135deg, #3b82f6, #2563eb); /* Tugmalar uchun gradient */
+    --primary-soft: rgba(59, 130, 246, 0.15); /* Yumshoq nur effektlari uchun */
+    --secondary: #10b981;        /* Qo'shimcha yashil */
+
     /* --- Matn Ranglari --- */
-    --text-dark: #1f2937;    /* Asosiy to'q matn */
-    --text-muted: #6b7280;   /* Ikkilamchi kulrang matn */
-    --text-light: #ffffff;   /* Oq matn (tugmalar uchun) */
-    
-    /* --- Fon va Panellar --- */
-    --page-bg: #f3f4f6;      /* Sahifa foni (och kulrang) */
-    --panel-bg: #ffffff;     /* Panellar foni (oppoq) */
-    --border-color: #e5e7eb; /* Chegaralar (och kulrang) */
-    
-    /* --- Soyalar (Yumshoq chuqurlik uchun) --- */
-    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    --text-main: #111827;        /* Eng to'q matn (deyarli qora) */
+    --text-secondary: #6b7280;   /* O'rta kulrang */
+    --text-on-primary: #ffffff;  /* Oq matn */
+
+    /* --- Fon va Shisha Effektlari --- */
+    --bg-body: linear-gradient(120deg, #f3f4f6 0%, #e5e7eb 100%); /* Yumshoq fon gradienti */
+    --glass-panel-bg: rgba(255, 255, 255, 0.85); /* Shisha panel foni (yarim shaffof) */
+    --glass-border: 1px solid rgba(255, 255, 255, 0.9); /* Shisha qirrasi */
+
+    /* --- Zamonaviy Soyalar (Chuqurlik uchun) --- */
+    /* Yumshoq, tarqoq soya */
+    --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 5px 15px -5px rgba(0, 0, 0, 0.03);
+    /* Keskinroq, diqqatni tortuvchi soya (hover uchun) */
+    --shadow-hover: 0 20px 40px -10px rgba(59, 130, 246, 0.15), 0 10px 20px -10px rgba(0, 0, 0, 0.05);
+    /* Ichki soya (neumorphism elementi) */
+    --inner-shadow: inset 0 2px 4px 0 rgba(0,0,0, 0.02);
 }
 
 body, html {
-  height: 100%;
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: var(--page-bg); /* Yorqin fon */
-  color: var(--text-dark);    /* To'q matn */
-  overflow-x: hidden;
+    height: 100%;
+    margin: 0;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-body); /* Yangi gradient fon */
+    color: var(--text-main);
+    overflow-x: hidden;
+    /* Shisha effekti ishlashi uchun fon muhim */
 }
 
-/* --- 3D Canvas Konteyneri --- */
+/* --- Asosiy Konteynerlar --- */
 #canvas-container-signup {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  z-index: 0;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+    pointer-events: none; /* Orqa fondagi canvas forma bosishga xalaqit bermasligi uchun */
 }
 
-/* --- Asosiy Layout --- */
 .signup-container {
-  position: relative; z-index: 1; min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  padding: 30px 15px; box-sizing: border-box;
+    position: relative; z-index: 1; min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 30px 20px; box-sizing: border-box;
 }
 
-/* --- Asosiy Panel (Glass o'rniga toza oq quti) --- */
+/* --- ASOSIY PANEL (Haqiqiy Shisha Effekti) --- */
 .glass-panel {
-  background: var(--panel-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  box-shadow: var(--shadow-lg); /* Kattaroq soya */
+    background: var(--glass-panel-bg);
+    /* Orqa fonni xiralashtirish (Glassmorphism asosi) */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: var(--glass-border);
+    border-radius: 24px; /* Yanada yumaloq burchaklar */
+    box-shadow: var(--shadow-soft);
+    /* Panel atrofida juda nozik oq nur */
+    box-shadow:
+        0 10px 40px rgba(0,0,0,0.08),
+        inset 0 1px 0 rgba(255,255,255, 0.8);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Panelga hover bo'lganda biroz ko'tarilishi */
+.glass-panel:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-3px);
 }
 
 .signup-frame {
-  width: 100%; max-width: 700px; padding: 40px; box-sizing: border-box;
+    width: 100%; max-width: 650px; padding: 50px; box-sizing: border-box;
 }
 
 
 /* =========================================
-   2. HEADER QISMI
+   2. HEADER QISMI (Yaxshilangan Tipografiya)
    ========================================= */
-.signup-top { text-align: center; margin-bottom: 35px; }
+.signup-top { text-align: center; margin-bottom: 40px; }
 
 .signup-top .title {
-  font-size: 32px; font-weight: 700;
-  color: var(--text-dark); /* To'q matn */
-  display: block; margin-bottom: 10px;
-  letter-spacing: -0.5px;
+    font-size: 36px; font-weight: 800;
+    color: var(--text-main);
+    display: block; margin-bottom: 10px;
+    letter-spacing: -1px;
+    /* Sarlavhaga nozik gradient qo'shish (ixtiyoriy) */
+    background: linear-gradient(45deg, var(--text-main), var(--primary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .signup-top .subtitle {
-    color: var(--text-muted); font-size: 15px; margin-bottom: 15px;
+    color: var(--text-secondary); font-size: 16px; margin-bottom: 15px; font-weight: 500;
 }
 
-.highlight-link { color: var(--primary-color); text-decoration: none; font-weight: 600; transition: all 0.3s ease; }
-.highlight-link:hover { text-decoration: underline; }
+.highlight-link {
+    color: var(--primary); text-decoration: none; font-weight: 700;
+    position: relative; transition: all 0.3s ease;
+}
+/* Link tagiga chiziq chizish animatsiyasi */
+.highlight-link::after {
+    content: ''; position: absolute; width: 0%; height: 2px;
+    bottom: -2px; left: 0; background-color: var(--primary);
+    transition: width 0.3s ease;
+}
+.highlight-link:hover::after { width: 100%; }
 
 .back-home-link {
-    color: var(--text-muted); text-decoration: none; font-size: 14px;
-    display: inline-flex; align-items: center; transition: all 0.3s ease;
+    color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 600;
+    display: inline-flex; align-items: center; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 8px 12px; border-radius: 8px;
 }
-.back-home-link i { margin-right: 8px; }
-.back-home-link:hover { color: var(--primary-color); transform: translateX(-5px); }
+.back-home-link i { margin-right: 8px; font-size: 14px; transition: transform 0.3s ease; }
+.back-home-link:hover {
+    color: var(--primary); background: var(--primary-soft);
+}
+.back-home-link:hover i { transform: translateX(-3px); }
 
 
 /* =========================================
-   3. FORMA GRID VA ZAMONAVIY INPUTLAR
+   3. ZAMONAVIY INPUTLAR (Eng katta o'zgarish)
    ========================================= */
 .form-grid { display: flex; gap: 25px; margin-bottom: 25px; }
 .input-group { flex: 1; display: flex; flex-direction: column; }
 
+/* Label - Kichikroq, qalinroq va professional */
 .input-group label {
-    font-size: 14px; font-weight: 600; margin-bottom: 8px;
-    color: var(--text-dark); letter-spacing: 0.5px;
+    font-size: 12px; font-weight: 700; margin-bottom: 10px;
+    color: var(--text-main); letter-spacing: 0.8px; text-transform: uppercase;
+    opacity: 0.8;
 }
 
 .input-wrapper { position: relative; }
 
-/* Ikonka */
+/* Ikonka - Tinch holatda */
 .input-icon {
-    position: absolute; top: 50%; left: 15px; transform: translateY(-50%);
-    color: var(--text-muted); font-size: 18px; z-index: 2; transition: all 0.3s ease;
+    position: absolute; top: 50%; left: 18px; transform: translateY(-50%);
+    color: #9ca3af; font-size: 20px; z-index: 2;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Input Stili */
+/* Input Stili - "Filled" (To'ldirilgan) uslub */
 .glass-input {
-    width: 100%; height: 50px;
-    background: #f9fafb !important; /* Och kulrang fon */
-    border: 1px solid var(--border-color) !important;
-    border-radius: 10px; padding: 0 20px 0 45px; /* Ikonka uchun joy */
-    font-size: 15px; color: var(--text-dark) !important; font-family: 'Poppins', sans-serif;
-    transition: all 0.3s ease; box-sizing: border-box;
-    box-shadow: var(--shadow-sm);
+    width: 100%; height: 56px; /* Biroz balandroq */
+    /* Tinch holat: Juda och kulrang fon, shaffof chegara */
+    background: #f0f2f5 !important;
+    border: 2px solid transparent !important;
+    border-radius: 14px; /* Juda yumshoq burchaklar */
+    padding: 0 20px 0 50px;
+    font-size: 15px; font-weight: 600; color: var(--text-main) !important;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--inner-shadow); /* Ichki nozik soya */
+    box-sizing: border-box;
 }
-.glass-input::placeholder { color: #9ca3af; }
 
-/* Input Focus/Hover Holati */
-.glass-input:focus {
-    outline: none; border-color: var(--primary-color) !important;
-    background: #ffffff !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important; /* Ko'k nur */
+.glass-input::placeholder {
+    color: #a0aec0; font-weight: 500; transition: opacity 0.3s ease;
 }
-.glass-input:focus + .input-icon { color: var(--primary-color); }
-.glass-input:hover { border-color: #d1d5db; background: #fff !important; }
+
+/* Hover Holati */
+.glass-input:hover { background: #e9ecef !important; }
+.glass-input:hover + .input-icon { color: var(--text-secondary); }
+
+/* Focus Holati (Bosilganda - Asosiy Effekt) */
+.glass-input:focus {
+    outline: none; background: #ffffff !important;
+    border-color: var(--primary) !important; /* Ko'k chegara */
+    /* Atrofida yumshoq ko'k nur (ring) */
+    box-shadow: 0 0 0 5px var(--primary-soft) !important;
+}
+.glass-input:focus + .input-icon {
+    color: var(--primary); transform: translateY(-50%) scale(1.1); /* Ikonka kattalashadi */
+}
+.glass-input:focus::placeholder { opacity: 0.7; }
 
 
 /* =========================================
-   4. ZAMONAVIY RASM YUKLASH (IMAGE UPLOAD)
+   4. ZAMONAVIY RASM YUKLASH ZONE
    ========================================= */
-.image-upload-section { margin-bottom: 35px; }
-.image-upload-section label { display: block; margin-bottom: 10px; font-weight: 600; color: var(--text-dark); }
+.image-upload-section { margin-bottom: 40px; }
+.image-upload-section label {
+    font-size: 12px; font-weight: 700; margin-bottom: 10px;
+    color: var(--text-main); letter-spacing: 0.8px; text-transform: uppercase; opacity: 0.8;
+}
 
 .glass-upload-zone {
-    position: relative; width: 100%; height: 200px;
-    border-radius: 12px;
-    border: 2px dashed var(--border-color); /* Uzuk-uzuk kulrang chegara */
-    background: #f9fafb; /* Och kulrang fon */
+    position: relative; width: 100%; height: 220px;
+    border-radius: 16px;
+    /* Oddiy border o'rniga gradient border */
+    border: 2px dashed #d1d5db;
+    background: #f9fafb;
     overflow: hidden; display: flex; justify-content: center; align-items: center;
-    transition: all 0.3s ease; cursor: pointer;
-}
-.glass-upload-zone:hover {
-    border-color: var(--primary-color);
-    background: #eff6ff; /* Hover bo'lganda juda och ko'k */
-}
-
-.preview-image {
-    width: 100%; height: 100%; object-fit: cover;
-    opacity: 0.4; transition: all 0.3s ease;
-    filter: grayscale(100%); /* Rasm yo'qligida oq-qora */
-}
-
-.upload-overlay {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    display: flex; flex-direction: column; justify-content: center; align-items: center;
-    color: var(--text-muted); z-index: 1; transition: all 0.3s ease;
-}
-
-.upload-icon { font-size: 40px; margin-bottom: 10px; color: var(--text-muted); transition: all 0.3s ease; }
-.upload-text { font-size: 16px; font-weight: 500; }
-.upload-hint { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
-
-.upload-hidden {
-    position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; z-index: 2;
+    transition: all 0.4s ease; cursor: pointer;
+    /* Orqa fonga nozik naqsh (pattern) */
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 20px 20px;
 }
 
 /* Hover effektlari */
-.glass-upload-zone:hover .upload-icon { color: var(--primary-color); }
-.glass-upload-zone:hover .upload-text { color: var(--primary-color); }
+.glass-upload-zone:hover {
+    border-color: var(--primary);
+    background-color: var(--primary-soft);
+    /* Hoverda naqsh rangi o'zgaradi */
+    background-image: radial-gradient(var(--primary-soft) 1px, transparent 1px);
+}
 
-/* Rasm yuklanganda o'zgarish */
-.glass-upload-zone.has-image .preview-image { opacity: 1; filter: none; }
-.glass-upload-zone.has-image .upload-overlay { opacity: 0; }
-/* Rasm bor bo'lsa ham hover qilganda overlay chiqsin */
-.glass-upload-zone.has-image:hover .preview-image { opacity: 0.3; }
-.glass-upload-zone.has-image:hover .upload-overlay { opacity: 1; background: rgba(255,255,255,0.8); }
+.upload-icon {
+    font-size: 48px; margin-bottom: 15px; color: #9ca3af;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Elastik animatsiya */
+}
+.glass-upload-zone:hover .upload-icon {
+    color: var(--primary); transform: scale(1.1) translateY(-10px);
+}
+.upload-text { font-size: 16px; font-weight: 600; color: var(--text-secondary); transition: color 0.3s ease; }
+.glass-upload-zone:hover .upload-text { color: var(--primary); }
 
 
 /* =========================================
-   5. TUGMA (BUTTON) - FLAT & MODERN
+   5. PREMIUM TUGMA (Gradient & Glow)
    ========================================= */
 .glass-btn-primary {
-    width: 100%; height: 55px; border: none; border-radius: 10px;
-    background: var(--primary-color); /* Gradient o'rniga tekis rang */
-    font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 18px; color: #ffffff;
-    cursor: pointer; transition: all 0.3s ease;
+    width: 100%; height: 58px; border: none; border-radius: 14px;
+    /* Oddiy rang o'rniga zamonaviy gradient */
+    background: var(--primary-gradient);
+    background-size: 200% auto; /* Gradient animatsiyasi uchun */
+    font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 18px; color: var(--text-on-primary);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex; justify-content: center; align-items: center;
-    box-shadow: var(--shadow-sm);
+    /* Tugma soyasi - pastga va biroz rangli nur */
+    box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
+    letter-spacing: 0.5px;
 }
+
 .glass-btn-primary:hover {
-    background: var(--primary-hover);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    /* Gradient joylashuvini o'zgartirish (jonlantirish) */
+    background-position: right center;
+    transform: translateY(-3px);
+    /* Hoverda soya yanada kuchayadi va yorqinlashadi */
+    box-shadow: 0 15px 30px -5px rgba(59, 130, 246, 0.5), 0 0 20px var(--primary-soft) inset;
 }
-.btn-icon { margin-left: 10px; }
+.btn-icon { margin-left: 12px; font-size: 18px; transition: transform 0.3s ease; }
+.glass-btn-primary:hover .btn-icon { transform: translateX(5px); }
 
 
 /* --- Mobil Moslashuv --- */
 @media (max-width: 768px) {
-    .signup-frame { padding: 25px; }
+    .signup-frame { padding: 30px 25px; }
     .form-grid { flex-direction: column; gap: 20px; }
-    .glass-upload-zone { height: 180px; }
-    .title { font-size: 26px; }
+    .title { font-size: 28px; }
+    .glass-btn-primary { height: 54px; font-size: 16px; }
 }
