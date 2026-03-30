@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 
 class AuthService {
     constructor() {}
-
+    // creation token process
     public async createToken(payload: Member) {
         return new Promise((resolve, reject) => {
             const duration = `${AUTH_TIMER}h`;
