@@ -63,6 +63,20 @@ public async signup(input: MemberInput): Promise<Member> {
   }
 
 
+  public async updateMember(
+    member: Member, 
+    input: MemberUpdateInput
+  ): Promise<Member> {
+    const memberId = shapeIntoMongooseObjectId(member._id);
+    const result = this.memberModel
+    .findOneAndUpdate({_id: memberId}, input, {new: true, runValidators: true})
+    .exec();
+
+    if(!result) throw new Errors(HttpCode.NOT_MODIFIED, Message.UPDATE_FAILED);
+    return result;
+  }
+
+
 
 
 
