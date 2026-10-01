@@ -68,7 +68,7 @@ function validateForm() {
 // Rasm prevyusi (Preview)
 function priviewFileHandler(input, order) {
     const file = input.files[0];
-    const validImageType = ["image/jpg", "image/jpeg", "image/png", "image/webp"];
+    const validImageType = ["image/jpg", "image/jpeg", "image/png", "image/webp","image/avif"];
 
     if(file && !validImageType.includes(file['type'])) {
       alert("Please upload only JPG, JPEG, PNG, or WEBP images.");

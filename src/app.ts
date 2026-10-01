@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import path from "path";
 import router from "./router";
 import routerAdmin from "./router-admin";
@@ -8,56 +9,75 @@ import { MORGAN_FORMAT } from "./libs/config";
 import session from "express-session";
 import ConnentMongoDB from "connect-mongodb-session";
 import { T } from "./libs/types/common";
+import { Server as SocketIOServer } from "socket.io";
+import http from "http";
 
 const MongoDBStore = ConnentMongoDB(session);
 const store = new MongoDBStore({
-    uri: String(process.env.MONGO_URL),
-    collection: "sessions",
+  uri: String(process.env.MONGO_URL),
+  collection: "sessions",
 });
-
 
 //** 1-ENTERANCE  */
 const app = express();
-app.use(express.static(path.join(__dirname,"public")));
-app.use(express.urlencoded({extended: true}));
-app.use("/uploads", express.static("./uploads"))
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: true }));
+app.use("/uploads", express.static("./uploads"));
 app.use(express.json());
+app.use(
+  cors({
+    credentials: true,
+    origin: true,
+  }),
+);
 app.use(morgan(MORGAN_FORMAT));
 app.use(cookieParser());
 
 //** 2-SESSIONS   */
 app.use(
-    session({
-        secret: String(process.env.SESSION_SECRET),
-        cookie: {
-            maxAge: 1000 * 3600 * 3, // 3hr 
-        },
-        store: store,
-        resave: true,
-        saveUninitialized: true,
-    })
+  session({
+    secret: String(process.env.SESSION_SECRET),
+    cookie: {
+      maxAge: 1000 * 3600 * 3, // 3hr
+    },
+    store: store,
+    resave: true,
+    saveUninitialized: true,
+  }),
 );
 
-
-app.use(function(req,res, next) {
- const sessionInstance = req.session as T;
- res.locals.member = sessionInstance.member;
- next();
-})
-
-
-
+app.use(function (req, res, next) {
+  const sessionInstance = req.session as T;
+  res.locals.member = sessionInstance.member;
+  next();
+});
 
 //** 3-VIEWS      */
-app.set('views', path.join(__dirname, "views"));
-app.set('view engine', 'ejs');
-
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
 
 //** 4-ROUTERS    */
 app.use("/admin", routerAdmin); // BSSR FOR EJS
 app.use("/", router); // SPA FOR REACT
 
+const server = http.createServer(app);
+const io = new SocketIOServer(server, {
+  cors: {
+    origin: true,
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
+let summaryClient = 0;
+io.on("connection", (socket) => {
+  summaryClient++;
+  console.log(`A user connected. Total clients: ${summaryClient}`);
 
-export default app;
+  socket.on("disconnect", () => {
+    summaryClient--;
+    console.log(`A user disconnected. Total clients: ${summaryClient}`);
+  });
+});
 
+export default server;

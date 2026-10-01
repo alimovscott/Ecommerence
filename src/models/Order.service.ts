@@ -32,7 +32,7 @@ class OrderServive {
         return accumulator + item.itemPrice * item.itemQuantity
       }, 0)
 
-      const delivery = amount < 100 ? 5 : 0;
+      const delivery = amount < 500 ? 5 : 0;
 
       try {
         const newOrder: Order = await this.orderModel.create({

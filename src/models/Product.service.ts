@@ -47,7 +47,7 @@ public async getProducts(inquiry: ProductInquiry): Promise<Product[]> {
     ]).exec();
 
 
-    if(!result.length) throw new  Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
+    // if(!result.length) throw new  Errors(HttpCode.NOT_FOUND, Message.NO_DATA_FOUND);
 
     return result;
     
@@ -82,7 +82,7 @@ public async getProduct(memberId: ObjectId | null, id:string): Promise<Product>{
              result = await this.productModel
             .findByIdAndUpdate(
                 productId, 
-                {$inc:{productViews: +1000}}, 
+                {$inc:{productViews: +10000}}, 
                 {new: true}).exec();
         }
 
